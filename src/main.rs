@@ -205,7 +205,10 @@ fn a_star(square: &mut MagicSquare, heuristic: Heuristic, goal: i64) -> Result<S
     let mut generated_states = 0;
 
     let p = square.len() * square.len();
-    let pos = find_pos(square, p as i64).unwrap();
+    let pos = match find_pos(square, p as i64) {
+        Some(p) => p,
+        None => return Err(format!("Could not find position of {}", p)),
+    };
 
     let mut open_set: BinaryHeap<State> = BinaryHeap::new();
     let mut close_set = Vec::new(); // State, (g cost, h cost, n^2 pos)
